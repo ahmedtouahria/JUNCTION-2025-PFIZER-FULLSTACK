@@ -1,0 +1,25 @@
+# Django Core
+Django
+django-rest-framework
+django-cors-headers
+django-filter
+
+# Authentication
+djangorestframework-simplejwt
+
+# Database
+psycopg2-binary
+# ML & Data Science
+scikit-learn
+pandas
+numpy
+
+# Environment & Utils
+python-decouple
+python-dotenv
+
+# Weather API (optional)
+requests
+
+# Development
+django-extensions
