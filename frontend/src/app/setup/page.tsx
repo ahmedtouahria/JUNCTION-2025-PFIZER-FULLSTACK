@@ -179,9 +179,12 @@ export default function SetupPage() {
             whileTap={allRequiredGranted ? { scale: 0.98 } : {}}
             className={`w-full py-4 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-3 ${
               allRequiredGranted
-                ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-xl hover:shadow-primary-500/25'
+                ? 'bg-gradient-to-r from-[#4A78FF] to-[#3B82F6] text-white shadow-xl hover:shadow-blue-500/25'
                 : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
             }`}
+            style={allRequiredGranted ? {
+              background: 'linear-gradient(135deg, #4A78FF 0%, #3B82F6 100%)'
+            } : undefined}
           >
             <span>Continue to Aurora</span>
             <ArrowRight className="w-5 h-5" />

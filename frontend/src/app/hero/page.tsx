@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { 
   Sparkles, 
   ArrowRight, 
@@ -25,6 +26,7 @@ interface FloatingElement {
 }
 
 export default function HeroPage() {
+  const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
   const [floatingElements, setFloatingElements] = useState<FloatingElement[]>([]);
@@ -249,6 +251,7 @@ export default function HeroPage() {
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
                     <motion.button
+                      onClick={() => router.push('/setup')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="bg-gradient-to-r from-primary-500 to-primary-400 text-white px-12 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-primary-500/25 transition-all duration-300 flex items-center space-x-3"
