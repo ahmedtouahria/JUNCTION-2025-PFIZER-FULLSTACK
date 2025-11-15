@@ -10,7 +10,7 @@ interface ForecastDay {
   date: string;
   risk_score: number;
   risk_level: string;
-  top_factors?: string[];
+  top_factors?: (string | { factor: string; impact: number })[];
 }
 
 export default function ForecastPage() {
@@ -22,7 +22,11 @@ export default function ForecastPage() {
     const fetchForecast = async () => {
       try {
         const response = await predictionsAPI.getForecast();
-        setForecast(response.data);
+        // Handle both array and object responses
+        const forecastData = Array.isArray(response.data) 
+          ? response.data 
+          : response.data.forecast || [];
+        setForecast(forecastData);
       } catch (err) {
         setError('Failed to load forecast');
         console.error(err);
@@ -170,7 +174,7 @@ export default function ForecastPage() {
                           {day.top_factors.slice(0, 3).map((factor, i) => (
                             <li key={i} className="flex items-start">
                               <span className="text-muted-foreground mr-1">•</span>
-                              <span>{factor}</span>
+                              <span>{typeof factor === 'string' ? factor : factor.factor}</span>
                             </li>
                           ))}
                         </ul>

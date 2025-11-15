@@ -1,29 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
-import { 
-  Home, 
-  Calendar, 
-  TrendingUp, 
-  Activity, 
-  Settings, 
-  LogOut,
-  Plus,
-  AlertCircle
-} from 'lucide-react';
+import { RadioTower, Activity, Clock } from 'lucide-react';
 
 export function Navigation() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { isAuthenticated, user, logout } = useAuthStore();
-
-  const handleLogout = async () => {
-    logout();
-    router.push('/login');
-  };
+  const { isAuthenticated } = useAuthStore();
 
   // Don't show navigation on login/register pages
   if (pathname === '/login' || pathname === '/register') {
@@ -35,63 +19,15 @@ export function Navigation() {
   }
 
   const navItems = [
-    { href: '/', label: 'Dashboard', icon: Home },
-    { href: '/daily-checkin', label: 'Daily Check-in', icon: Calendar },
-    { href: '/log-symptoms', label: 'Log Symptoms', icon: AlertCircle },
-    { href: '/forecast', label: 'Forecast', icon: TrendingUp },
-    { href: '/insights', label: 'Insights', icon: Activity },
-    { href: '/settings', label: 'Settings', icon: Settings },
+    { href: '/', label: 'Radar', icon: RadioTower },
+    { href: '/insights', label: 'Signals', icon: Activity },
+    { href: '/history', label: 'History', icon: Clock },
   ];
 
   return (
-    <nav className="bg-white border-b sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold">M</span>
-            </div>
-            <span className="font-bold text-xl hidden sm:block">MigraineTracker</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground hidden sm:block">
-              {user?.first_name || user?.username}
-            </span>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex overflow-x-auto pb-2 space-x-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-border z-50">
+      <div className="max-w-lg mx-auto px-6">
+        <div className="flex justify-around items-center h-20">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -100,14 +36,18 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
+                className={`flex flex-col items-center gap-1 transition-all duration-200 ${
                   isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-primary scale-110'
+                    : 'text-muted-foreground/60 hover:text-muted-foreground'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{item.label}</span>
+                <Icon className={`h-6 w-6 ${isActive ? 'stroke-[1.5]' : 'stroke-[1]'}`} />
+                <span className={`text-xs font-light tracking-wide ${
+                  isActive ? 'font-normal' : ''
+                }`}>
+                  {item.label}
+                </span>
               </Link>
             );
           })}
