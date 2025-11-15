@@ -7,10 +7,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-}
-
-module.exports = {
+  // Enable standalone output for Docker
+  output: 'standalone',
   experimental: {
     outputFileTracingRoot: __dirname,
   },
-};
+}
+
+module.exports = nextConfig;

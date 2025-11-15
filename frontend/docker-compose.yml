@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aurora-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_USE_MOCK_DATA=${NEXT_PUBLIC_USE_MOCK_DATA:-true}
+    restart: unless-stopped
+    networks:
+      - aurora-network
+
+  # Development service (optional - for hot reload)
+  frontend-dev:
+    image: node:20-alpine
+    container_name: aurora-frontend-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_USE_MOCK_DATA=${NEXT_PUBLIC_USE_MOCK_DATA:-true}
+    command: sh -c "npm install && npm run dev"
+    restart: unless-stopped
+    networks:
+      - aurora-network
+    profiles:
+      - dev
+
+networks:
+  aurora-network:
+    driver: bridge
