@@ -4,37 +4,86 @@
 
 @layer base {
   :root {
-    /* Aurora Theme - Calm, Soft, Minimal */
-    --background: 40 20% 98%;
-    --foreground: 240 10% 25%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 25%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 25%;
+    /* Aurora Professional Theme - Medical-Grade Design */
     
-    /* Soft, Muted Primary Colors */
-    --primary: 230 40% 60%;
+    /* Brand Colors */
+    --aurora-blue: 217 91% 68%;
+    --aurora-purple: 255 75% 68%;
+    --aurora-navy: 220 35% 15%;
+    
+    /* Neutral Palette (Clinical) */
+    --neutral-50: 210 20% 98%;
+    --neutral-100: 210 20% 95%;
+    --neutral-200: 210 20% 90%;
+    --neutral-300: 210 15% 80%;
+    --neutral-400: 210 12% 60%;
+    --neutral-500: 210 10% 45%;
+    --neutral-600: 210 12% 30%;
+    --neutral-700: 210 15% 20%;
+    --neutral-800: 210 20% 12%;
+    --neutral-900: 210 25% 8%;
+    
+    /* Semantic Colors - Base */
+    --background: var(--neutral-50);
+    --foreground: var(--neutral-900);
+    --card: 0 0% 100%;
+    --card-foreground: var(--neutral-900);
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--neutral-900);
+    
+    /* Primary (Brand) */
+    --primary: var(--aurora-blue);
     --primary-foreground: 0 0% 100%;
     
-    /* Pastel Risk Colors */
-    --risk-low: 140 50% 75%;
-    --risk-moderate: 40 80% 75%;
-    --risk-high: 0 70% 80%;
+    /* Risk Colors (Professional) */
+    --risk-low-50: 140 60% 96%;
+    --risk-low-100: 140 55% 88%;
+    --risk-low-500: 140 48% 55%;
+    --risk-low-600: 140 55% 45%;
     
-    --secondary: 240 20% 94%;
-    --secondary-foreground: 240 10% 25%;
-    --muted: 240 10% 95%;
-    --muted-foreground: 240 8% 50%;
-    --accent: 230 30% 92%;
-    --accent-foreground: 240 10% 25%;
+    --risk-moderate-50: 38 100% 96%;
+    --risk-moderate-100: 38 95% 88%;
+    --risk-moderate-500: 38 92% 60%;
+    --risk-moderate-600: 38 95% 50%;
     
-    --destructive: 0 70% 80%;
+    --risk-high-50: 0 100% 97%;
+    --risk-high-100: 0 90% 92%;
+    --risk-high-500: 0 75% 65%;
+    --risk-high-600: 0 80% 55%;
+    
+    /* Secondary & Accent */
+    --secondary: var(--neutral-100);
+    --secondary-foreground: var(--neutral-900);
+    --muted: var(--neutral-200);
+    --muted-foreground: var(--neutral-500);
+    --accent: var(--neutral-100);
+    --accent-foreground: var(--neutral-900);
+    
+    /* Utility */
+    --destructive: var(--risk-high-500);
     --destructive-foreground: 0 0% 100%;
+    --success: var(--risk-low-500);
+    --warning: var(--risk-moderate-500);
     
-    --border: 240 10% 92%;
-    --input: 240 10% 92%;
-    --ring: 230 40% 60%;
-    --radius: 1.5rem;
+    /* Borders & Inputs */
+    --border: var(--neutral-200);
+    --input: var(--neutral-200);
+    --ring: var(--primary);
+    
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius: var(--radius-xl);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
   }
 
   .dark {
@@ -75,29 +124,166 @@
 }
 
 @layer utilities {
-  /* Calm Gradients */
+  /* Professional Background Gradients */
   .gradient-calm {
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--accent)) 100%);
+    background: linear-gradient(135deg, hsl(var(--neutral-50)) 0%, hsl(210 25% 96%) 100%);
   }
   
+  .gradient-aurora {
+    background: linear-gradient(135deg, hsl(var(--aurora-blue)) 0%, hsl(var(--aurora-purple)) 100%);
+  }
+  
+  /* Risk Gradients (Professional) */
   .gradient-risk-low {
-    background: linear-gradient(135deg, hsl(140 60% 85%) 0%, hsl(140 50% 75%) 100%);
+    background: linear-gradient(135deg, hsl(var(--risk-low-500)) 0%, hsl(var(--risk-low-600)) 100%);
   }
   
   .gradient-risk-moderate {
-    background: linear-gradient(135deg, hsl(40 85% 85%) 0%, hsl(40 80% 75%) 100%);
+    background: linear-gradient(135deg, hsl(var(--risk-moderate-500)) 0%, hsl(var(--risk-moderate-600)) 100%);
   }
   
   .gradient-risk-high {
-    background: linear-gradient(135deg, hsl(0 75% 88%) 0%, hsl(0 70% 80%) 100%);
+    background: linear-gradient(135deg, hsl(var(--risk-high-500)) 0%, hsl(var(--risk-high-600)) 100%);
   }
   
-  /* Soft Shadows */
-  .shadow-calm {
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  /* Subtle Background Gradients */
+  .gradient-subtle-low {
+    background: linear-gradient(135deg, hsl(var(--risk-low-50)) 0%, hsl(var(--risk-low-100)) 100%);
   }
   
+  .gradient-subtle-moderate {
+    background: linear-gradient(135deg, hsl(var(--risk-moderate-50)) 0%, hsl(var(--risk-moderate-100)) 100%);
+  }
+  
+  .gradient-subtle-high {
+    background: linear-gradient(135deg, hsl(var(--risk-high-50)) 0%, hsl(var(--risk-high-100)) 100%);
+  }
+  
+  /* Professional Elevation Shadows */
+  .shadow-card {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .shadow-elevated {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .shadow-floating {
+    box-shadow: var(--shadow-xl);
+  }
+  
+  /* Risk-Specific Colored Shadows */
+  .shadow-glow-low {
+    box-shadow: 0 0 20px hsla(var(--risk-low-500), 0.15),
+                0 8px 24px -4px hsla(var(--risk-low-500), 0.1);
+  }
+  
+  .shadow-glow-moderate {
+    box-shadow: 0 0 20px hsla(var(--risk-moderate-500), 0.15),
+                0 8px 24px -4px hsla(var(--risk-moderate-500), 0.1);
+  }
+  
+  .shadow-glow-high {
+    box-shadow: 0 0 20px hsla(var(--risk-high-500), 0.15),
+                0 8px 24px -4px hsla(var(--risk-high-500), 0.1);
+  }
+  
+  /* Aurora Brand Glow */
   .shadow-aurora {
-    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 24px hsla(var(--aurora-blue), 0.12),
+                0 8px 32px -4px hsla(var(--aurora-purple), 0.08);
+  }
+  
+  /* Smooth Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.7s ease-out;
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Professional Glassmorphism Effects */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  
+  .glass-card-soft {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px) saturate(160%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Hide Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
