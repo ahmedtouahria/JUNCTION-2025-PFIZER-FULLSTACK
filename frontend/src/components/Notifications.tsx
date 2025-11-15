@@ -22,19 +22,18 @@ function NotificationItem({ notification, onClose }: NotificationProps) {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    if (notification.duration) {
-      const timer = setTimeout(() => {
-        handleClose();
-      }, notification.duration);
-      return () => clearTimeout(timer);
-    }
-  }, [notification]);
+    if (!notification.duration) return;
+    const timer = setTimeout(() => {
+      // trigger close animation then notify parent
+      setIsExiting(true);
+      setTimeout(() => onClose(notification.id), 300);
+    }, notification.duration);
+    return () => clearTimeout(timer);
+  }, [notification.duration, notification.id, onClose]);
 
   const handleClose = () => {
     setIsExiting(true);
-    setTimeout(() => {
-      onClose(notification.id);
-    }, 300);
+    setTimeout(() => onClose(notification.id), 300);
   };
 
   const getIcon = () => {

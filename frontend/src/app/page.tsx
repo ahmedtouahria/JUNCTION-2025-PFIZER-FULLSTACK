@@ -19,7 +19,7 @@ export default function Home() {
     }
 
     fetchPrediction();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   const fetchPrediction = async () => {
     try {
@@ -152,7 +152,7 @@ export default function Home() {
         {/* Why Today? - Key Triggers */}
         <div className="w-full mb-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <div className="glass-strong rounded-2xl p-6 shadow-card border border-neutral-200/30">
-            <h3 className="text-sm font-semibold text-neutral-700 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-semibold text-neutral-700 uppercase tracking-wider mb-4">
               Why today?
             </h3>
             <div className="space-y-3">

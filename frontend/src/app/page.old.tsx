@@ -30,7 +30,7 @@ export default function Home() {
     }
 
     fetchData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   const fetchData = async () => {
     try {
@@ -85,7 +85,7 @@ export default function Home() {
         <div className="mb-8">
           <Card className="border-2 shadow-lg">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-lg text-muted-foreground">Today's Migraine Risk</CardTitle>
+              <CardTitle className="text-lg text-muted-foreground">Today&apos;s Migraine Risk</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               {prediction ? (

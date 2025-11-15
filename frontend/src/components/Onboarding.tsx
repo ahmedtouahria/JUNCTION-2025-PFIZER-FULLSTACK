@@ -132,9 +132,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
             onClick={handleNext}
             className="glass-card px-8 py-4 rounded-full shadow-calm hover:shadow-aurora transition-all duration-300 hover:scale-105 flex items-center gap-2 group"
           >
-            <span className="font-light text-foreground/90">
-              {currentStep === steps.length - 1 ? "Let's Begin" : 'Next'}
-            </span>
+      <span className="font-light text-foreground/90">
+        {currentStep === steps.length - 1 ? <>Let&apos;s Begin</> : 'Next'}
+      </span>
             <ArrowRight className="w-4 h-4 text-primary transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </div>
@@ -146,7 +146,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
               onClick={handleSkip}
               className="text-xs text-muted-foreground/60 font-light hover:text-muted-foreground transition-colors duration-200"
             >
-              I've used Aurora before
+              I&rsquo;ve used Aurora before
             </button>
           </div>
         )}
