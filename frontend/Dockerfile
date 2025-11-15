@@ -7,8 +7,12 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
+COPY package.json package-lock.json* ./
+
+# Install dependencies
+# Use npm ci if package-lock.json exists, otherwise npm install
+RUN if [ -f package-lock.json ]; then npm ci --only=production; \
+    else npm install --only=production; fi
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
