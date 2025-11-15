@@ -9,9 +9,7 @@ const nextConfig = {
   },
   // Enable standalone output for Docker
   output: 'standalone',
-  experimental: {
-    outputFileTracingRoot: __dirname,
-  },
+  outputFileTracingRoot: __dirname,
 }
 
 module.exports = nextConfig;
