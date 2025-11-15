@@ -39,6 +39,52 @@
     /* Clinical Shadows (Minimal) */
     --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
     --shadow-card-hover: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
+
+    /* Aurora Primary Colors */
+    --primary-50: #f0f4ff;
+    --primary-100: #e0e7ff;
+    --primary-200: #c7d2fe;
+    --primary-300: #a5b4fc;
+    --primary-400: #818cf8;
+    --primary-500: #4A78FF;
+    --primary-600: #4338ca;
+    --primary-700: #3730a3;
+    --primary-800: #312e81;
+    --primary-900: #1e1b4b;
+
+    /* Aurora Design System Colors */
+    --neutral-50: #fafafa;
+    --neutral-100: #f5f5f5;
+    --neutral-200: #e5e5e5;
+    --neutral-300: #d4d4d4;
+    --neutral-400: #a3a3a3;
+    --neutral-500: #737373;
+    --neutral-600: #525252;
+    --neutral-700: #404040;
+    --neutral-800: #262626;
+    --neutral-900: #171717;
+
+    /* Aurora Risk Colors */
+    --risk-low-100: #dcfce7;
+    --risk-low-200: #bbf7d0;
+    --risk-low-300: #86efac;
+    --risk-low-400: #4ade80;
+    --risk-low-500: #2B9C57;
+    --risk-low-600: #16a34a;
+
+    --risk-moderate-100: #fef3c7;
+    --risk-moderate-200: #fde68a;
+    --risk-moderate-300: #fcd34d;
+    --risk-moderate-400: #fbbf24;
+    --risk-moderate-500: #E4A620;
+    --risk-moderate-600: #d97706;
+
+    --risk-high-100: #fee2e2;
+    --risk-high-200: #fecaca;
+    --risk-high-300: #fca5a5;
+    --risk-high-400: #f87171;
+    --risk-high-500: #D64545;
+    --risk-high-600: #dc2626;
   }
 }
 
@@ -115,4 +161,137 @@
       transform: translateY(0);
     }
   }
+
+  /* Aurora Design System Utilities */
+  .gradient-calm {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+  }
+
+  .gradient-risk-low {
+    background: linear-gradient(135deg, var(--risk-low-400) 0%, var(--risk-low-500) 100%);
+  }
+
+  .gradient-risk-moderate {
+    background: linear-gradient(135deg, var(--risk-moderate-400) 0%, var(--risk-moderate-500) 100%);
+  }
+
+  .gradient-risk-high {
+    background: linear-gradient(135deg, var(--risk-high-400) 0%, var(--risk-high-500) 100%);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .shadow-card {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out forwards;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Text colors */
+  .text-primary-50 { color: var(--primary-50); }
+  .text-primary-100 { color: var(--primary-100); }
+  .text-primary-200 { color: var(--primary-200); }
+  .text-primary-300 { color: var(--primary-300); }
+  .text-primary-400 { color: var(--primary-400); }
+  .text-primary-500 { color: var(--primary-500); }
+  .text-primary-600 { color: var(--primary-600); }
+  .text-primary-700 { color: var(--primary-700); }
+  .text-primary-800 { color: var(--primary-800); }
+  .text-primary-900 { color: var(--primary-900); }
+
+  .text-neutral-50 { color: var(--neutral-50); }
+  .text-neutral-100 { color: var(--neutral-100); }
+  .text-neutral-200 { color: var(--neutral-200); }
+  .text-neutral-300 { color: var(--neutral-300); }
+  .text-neutral-400 { color: var(--neutral-400); }
+  .text-neutral-500 { color: var(--neutral-500); }
+  .text-neutral-600 { color: var(--neutral-600); }
+  .text-neutral-700 { color: var(--neutral-700); }
+  .text-neutral-800 { color: var(--neutral-800); }
+  .text-neutral-900 { color: var(--neutral-900); }
+
+  .text-risk-low-600 { color: var(--risk-low-600); }
+  .text-risk-moderate-600 { color: var(--risk-moderate-600); }
+  .text-risk-high-600 { color: var(--risk-high-600); }
+
+  /* Background colors */
+  .bg-primary-50 { background-color: var(--primary-50); }
+  .bg-primary-100 { background-color: var(--primary-100); }
+  .bg-primary-200 { background-color: var(--primary-200); }
+  .bg-primary-300 { background-color: var(--primary-300); }
+  .bg-primary-400 { background-color: var(--primary-400); }
+  .bg-primary-500 { background-color: var(--primary-500); }
+  .bg-primary-600 { background-color: var(--primary-600); }
+  .bg-primary-700 { background-color: var(--primary-700); }
+  .bg-primary-800 { background-color: var(--primary-800); }
+  .bg-primary-900 { background-color: var(--primary-900); }
+
+  .bg-risk-low-100 { background-color: var(--risk-low-100); }
+  .bg-risk-low-500 { background-color: var(--risk-low-500); }
+  .bg-risk-moderate-100 { background-color: var(--risk-moderate-100); }
+  .bg-risk-moderate-500 { background-color: var(--risk-moderate-500); }
+  .bg-risk-high-100 { background-color: var(--risk-high-100); }
+  .bg-risk-high-500 { background-color: var(--risk-high-500); }
+
+  /* Border colors */
+  .border-primary-50 { border-color: var(--primary-50); }
+  .border-primary-100 { border-color: var(--primary-100); }
+  .border-primary-200 { border-color: var(--primary-200); }
+  .border-primary-300 { border-color: var(--primary-300); }
+  .border-primary-400 { border-color: var(--primary-400); }
+  .border-primary-500 { border-color: var(--primary-500); }
+  .border-primary-600 { border-color: var(--primary-600); }
+  .border-primary-700 { border-color: var(--primary-700); }
+  .border-primary-800 { border-color: var(--primary-800); }
+  .border-primary-900 { border-color: var(--primary-900); }
+
+  .border-risk-low-200 { border-color: var(--risk-low-200); }
+  .border-risk-moderate-200 { border-color: var(--risk-moderate-200); }
+  .border-risk-high-200 { border-color: var(--risk-high-200); }
+
+  .border-risk-low-300 { border-color: var(--risk-low-300); }
+  .border-risk-moderate-300 { border-color: var(--risk-moderate-300); }
+  .border-risk-high-300 { border-color: var(--risk-high-300); }
+
+  /* Ring colors */
+  .ring-risk-low-200 { --tw-ring-color: var(--risk-low-200); }
+  .ring-risk-moderate-200 { --tw-ring-color: var(--risk-moderate-200); }
+  .ring-risk-high-200 { --tw-ring-color: var(--risk-high-200); }
+
+  .ring-risk-low-300 { --tw-ring-color: var(--risk-low-300); }
+  .ring-risk-moderate-300 { --tw-ring-color: var(--risk-moderate-300); }
+  .ring-risk-high-300 { --tw-ring-color: var(--risk-high-300); }
 }

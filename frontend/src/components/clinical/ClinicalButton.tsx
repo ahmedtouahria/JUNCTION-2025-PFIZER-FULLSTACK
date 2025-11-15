@@ -31,18 +31,18 @@ export default function ClinicalButton({
     if (variant === 'primary') {
       return {
         backgroundColor: disabled 
-          ? 'var(--gray-300)' 
+          ? '#D7DCE3'      // gray-300
           : isHovered 
-            ? 'var(--clinical-blue-hover)' 
-            : 'var(--clinical-blue)',
+            ? '#5B82EB'    // clinical-blue-hover
+            : '#3566E0',   // clinical-blue
         color: '#FFFFFF',
         border: 'none'
       };
     } else {
       return {
         backgroundColor: 'transparent',
-        color: disabled ? 'var(--gray-500)' : 'var(--clinical-text-primary)',
-        border: `1px solid ${disabled ? 'var(--gray-300)' : 'var(--gray-300)'}`
+        color: disabled ? '#90949E' : '#1A1A1A',  // gray-500 : text-primary
+        border: `1px solid ${disabled ? '#D7DCE3' : '#D7DCE3'}`  // gray-300
       };
     }
   };

@@ -24,9 +24,10 @@ export default function RiskSummaryCard({
   
   const getRiskColor = () => {
     switch (riskLevel) {
-      case 'low': return 'var(--risk-low)';
-      case 'moderate': return 'var(--risk-moderate)';
-      case 'high': return 'var(--risk-high)';
+      case 'low': return '#2B9C57';      // Green
+      case 'moderate': return '#E4A620';  // Amber
+      case 'high': return '#D64545';      // Red
+      default: return '#90949E';          // Gray fallback
     }
   };
 

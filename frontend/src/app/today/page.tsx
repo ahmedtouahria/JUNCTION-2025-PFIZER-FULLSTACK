@@ -21,19 +21,24 @@ export default function TodayPage() {
   // Sample data - would come from API
   const todayFactors = [
     {
-      title: 'Sleep quality: 7.2 hours',
-      description: 'Within your optimal range. Good sleep reduces risk by 30-40%.',
+      label: 'Sleep quality',
+      value: '7.2 hrs',
       impact: 'protective' as const
     },
     {
-      title: 'Barometric pressure dropping',
-      description: '30.2 → 29.8 inHg. Gradual changes are better tolerated than rapid shifts.',
-      impact: 'elevated' as const
+      label: 'Barometric pressure',
+      value: '29.8 inHg',
+      impact: 'risk' as const
     },
     {
-      title: 'Stress levels normal',
-      description: '4 meetings scheduled, matching your baseline activity.',
+      label: 'Stress level',
+      value: 'Normal',
       impact: 'neutral' as const
+    },
+    {
+      label: 'Hydration',
+      value: 'Good',
+      impact: 'protective' as const
     }
   ];
 
@@ -94,13 +99,10 @@ export default function TodayPage() {
         />
       </div>
 
-      {/* Why Today Section - Enhanced */}
+      {/* Why Today Section - Simplified & Professional */}
       <WhyTodaySection
         riskLevel="low"
-        riskPercentage={24}
-        mainExplanation="Based on your patterns and current conditions, today is favorable for migraine prevention."
         factors={todayFactors}
-        recommendation="Maintain your routine. Stay hydrated and take regular breaks between meetings."
       />
 
       {/* Clinical Footer */}

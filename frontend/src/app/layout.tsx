@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/Navigation";
-import { MobileViewToggle } from "@/components/MobileViewToggle";
+import { AuroraNavigation } from "@/components/AuroraNavigation";
 
 const inter = Inter({ 
   subsets: ["latin"],
   display: 'swap',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
-  title: "Aurora - Predict & Prevent",
-  description: "AI-powered migraine prediction and health tracking",
+  title: "Aurora - Predictive Wellness",
+  description: "AI-powered health insights that adapt to your unique patterns",
 };
 
 export default function RootLayout({
@@ -20,13 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="font-inter antialiased bg-white text-neutral-900" suppressHydrationWarning>
         <div className="pb-24">
           {children}
         </div>
-        <Navigation />
-        <MobileViewToggle />
+        <AuroraNavigation />
       </body>
     </html>
   );
