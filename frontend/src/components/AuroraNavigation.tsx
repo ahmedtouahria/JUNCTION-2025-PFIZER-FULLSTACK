@@ -4,35 +4,47 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { 
-  Home, 
   Activity, 
   BarChart3, 
-  Shield, 
-  Settings,
-  Sparkles
+  History, 
+  Settings
 } from 'lucide-react';
 
 const navigationItems = [
-  { href: '/hero', icon: Sparkles, label: 'Aurora' },
-  { href: '/setup', icon: Settings, label: 'Setup' },
   { href: '/live', icon: Activity, label: 'Live' },
-  { href: '/history', icon: Home, label: 'History' },
   { href: '/progress', icon: BarChart3, label: 'Progress' },
-  { href: '/privacy', icon: Shield, label: 'Privacy' },
+  { href: '/history', icon: History, label: 'History' },
+  { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 export function AuroraNavigation() {
   const pathname = usePathname();
 
+  const handleTabPress = () => {
+    // Simulate haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(10);
+    }
+  };
+
   return (
     <motion.nav 
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-neutral-200 px-4 py-2"
+      transition={{ duration: 0.3, ease: [0.4, 0.0, 0.2, 1] }}
+      className="fixed bottom-0 left-0 right-0 z-navigation"
     >
-      <div className="max-w-md mx-auto">
-        <div className="flex items-center justify-between">
+      {/* Background with blur and shadow */}
+      <div 
+        className="bg-white border-t border-neutral-100"
+        style={{ 
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          boxShadow: '0 -1px 0 0 rgba(0, 0, 0, 0.05), 0 -2px 8px rgba(0, 0, 0, 0.1)',
+          paddingBottom: 'max(8px, env(safe-area-inset-bottom))'
+        }}
+      >
+        <div className="flex items-center justify-around px-1 pt-2 pb-1">
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -41,32 +53,55 @@ export function AuroraNavigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex flex-col items-center p-3 rounded-2xl transition-all duration-300 ${
-                  isActive 
-                    ? 'text-primary-600' 
-                    : 'text-neutral-500 hover:text-neutral-700'
-                }`}
+                onClick={handleTabPress}
+                className="flex flex-col items-center justify-center py-1 px-2 min-w-0 flex-1 relative"
               >
-                {/* Active Background */}
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 bg-primary-50 rounded-2xl border border-primary-200"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <motion.div
-                    whileTap={{ scale: 0.95 }}
-                    className="mb-1"
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  className={`flex flex-col items-center transition-all duration-150 ease-out ${
+                    isActive 
+                      ? 'text-primary-600' 
+                      : 'text-neutral-500'
+                  }`}
+                >
+                  {/* Icon Container */}
+                  <div className="relative mb-1 flex items-center justify-center">
+                    <Icon 
+                      className={`w-6 h-6 transition-all duration-150 ${
+                        isActive ? 'text-primary-600' : 'text-neutral-500'
+                      }`} 
+                      strokeWidth={isActive ? 2.5 : 2}
+                    />
+                    
+                    {/* Active indicator dot */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className="absolute -bottom-2 w-1 h-1 bg-primary-600 rounded-full"
+                        transition={{ 
+                          type: 'spring', 
+                          stiffness: 500, 
+                          damping: 30,
+                          duration: 0.3
+                        }}
+                      />
+                    )}
+                  </div>
+                  
+                  {/* Label */}
+                  <span 
+                    className={`text-[10px] font-medium leading-tight transition-all duration-150 ${
+                      isActive 
+                        ? 'text-primary-600' 
+                        : 'text-neutral-500'
+                    }`}
+                    style={{ 
+                      fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                    }}
                   >
-                    <Icon className="w-6 h-6" />
-                  </motion.div>
-                  <span className="text-xs font-medium">
                     {item.label}
                   </span>
-                </div>
+                </motion.div>
               </Link>
             );
           })}

@@ -3,342 +3,308 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Calendar, 
-  Cloud, 
-  Coffee, 
-  Heart, 
-  Moon, 
-  Activity, 
-  TrendingUp, 
-  TrendingDown,
-  ArrowRight,
-  Info
+  AlertTriangle,
+  Check,
+  X,
+  Heart,
+  Activity,
+  Droplet,
+  Zap,
+  Pill,
+  Wind,
+  Coffee,
+  Moon
 } from 'lucide-react';
 
-interface Signal {
+interface HealthAction {
   id: string;
-  name: string;
-  value: string;
-  impact: 'positive' | 'negative' | 'neutral';
-  icon: React.ComponentType<{ className?: string }>;
+  title: string;
   description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  completed: boolean;
 }
 
-interface RiskData {
-  current: number;
-  prediction: number;
-  trend: 'up' | 'down' | 'stable';
-  confidence: number;
-}
-
-export default function LivePredictionPage() {
-  const [riskData, setRiskData] = useState<RiskData>({
-    current: 23,
-    prediction: 18,
-    trend: 'down',
-    confidence: 94
-  });
-
-  const [signals, setSignals] = useState<Signal[]>([
+export default function LivePage() {
+  const [healthScore, setHealthScore] = useState(88);
+  const [isHealthy, setIsHealthy] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [actions, setActions] = useState<HealthAction[]>([
     {
-      id: 'sleep',
-      name: 'Sleep Quality',
-      value: '8.2h deep',
-      impact: 'positive',
-      icon: Moon,
-      description: 'Above average sleep duration and quality'
+      id: 'breathing',
+      title: 'Deep Breathing',
+      description: 'Take 5 deep breaths to reduce stress',
+      icon: Wind,
+      completed: false
     },
     {
-      id: 'weather',
-      name: 'Weather',
-      value: '72°F sunny',
-      impact: 'positive',
-      icon: Cloud,
-      description: 'Optimal weather conditions'
+      id: 'hydration',
+      title: 'Drink Water',
+      description: 'Have a glass of water to stay hydrated',
+      icon: Droplet,
+      completed: false
     },
     {
-      id: 'schedule',
-      name: 'Schedule',
-      value: '3 meetings',
-      impact: 'negative',
-      icon: Calendar,
-      description: 'Heavy meeting schedule detected'
-    },
-    {
-      id: 'caffeine',
-      name: 'Caffeine',
-      value: '2 cups',
-      impact: 'neutral',
+      id: 'break',
+      title: 'Take a Break',
+      description: 'Step away from screens for 2 minutes',
       icon: Coffee,
-      description: 'Normal caffeine intake for you'
+      completed: false
     },
     {
-      id: 'heart-rate',
-      name: 'Heart Rate',
-      value: '68 bpm',
-      impact: 'positive',
-      icon: Heart,
-      description: 'Resting heart rate is optimal'
+      id: 'medication',
+      title: 'Check Medication',
+      description: 'Review if any medications are due',
+      icon: Pill,
+      completed: false
     }
   ]);
 
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  // Simulate real-time updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsUpdating(true);
-      setTimeout(() => {
-        setRiskData(prev => ({
-          ...prev,
-          current: Math.max(5, Math.min(95, prev.current + (Math.random() - 0.5) * 4)),
-          prediction: Math.max(5, Math.min(95, prev.prediction + (Math.random() - 0.5) * 3))
-        }));
-        setIsUpdating(false);
-      }, 800);
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const getRiskColor = (value: number) => {
-    if (value <= 30) return 'from-emerald-400 to-emerald-500';
-    if (value <= 60) return 'from-amber-400 to-amber-500';
-    return 'from-red-400 to-red-500';
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'from-red-400 to-red-600';
+    if (score >= 60) return 'from-amber-400 to-amber-600';
+    if (score >= 40) return 'from-yellow-400 to-yellow-500';
+    return 'from-emerald-400 to-emerald-600';
   };
 
-  const getRiskLevel = (value: number) => {
-    if (value <= 30) return 'Low Risk';
-    if (value <= 60) return 'Moderate Risk';
-    return 'High Risk';
+  const getStatusColor = (score: number) => {
+    if (score >= 80) return '#dc2626';
+    if (score >= 60) return '#d97706';
+    if (score >= 40) return '#eab308';
+    return '#16a34a';
   };
 
-  const getImpactColor = (impact: string) => {
-    switch (impact) {
-      case 'positive': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-      case 'negative': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-neutral-600 bg-neutral-50 border-neutral-200';
-    }
+  const getStatusText = (score: number) => {
+    if (score >= 80) return 'High Risk';
+    if (score >= 60) return 'Moderate Risk';
+    if (score >= 40) return 'Caution';
+    return 'Healthy';
   };
 
-  const meterRadius = 90;
-  const strokeWidth = 12;
-  const normalizedRadius = meterRadius - strokeWidth / 2;
+  const toggleAction = (id: string) => {
+    setActions(prev => 
+      prev.map(action => 
+        action.id === id ? { ...action, completed: !action.completed } : action
+      )
+    );
+  };
+
+  const allActionsCompleted = actions.every(action => action.completed);
+
+  const handleSolve = () => {
+    setShowModal(true);
+  };
+
+  const handleDone = () => {
+    setShowModal(false);
+    // Animate the health improvement
+    setHealthScore(7);
+    setIsHealthy(true);
+    // Reset actions
+    setActions(prev => prev.map(action => ({ ...action, completed: false })));
+  };
+
+  // Calculate progress percentage for the circular meter
+  const radius = 70;
+  const strokeWidth = 8;
+  const normalizedRadius = radius - strokeWidth * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
-  const currentOffset = circumference - (riskData.current / 100) * circumference;
-  const predictionOffset = circumference - (riskData.prediction / 100) * circumference;
+  const strokeDashoffset = circumference - (healthScore / 100) * circumference;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-white p-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-white px-6 py-8">
+      <div className="max-w-sm mx-auto">
         
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h1 className="text-3xl font-semibold text-neutral-900 mb-2">
-            Live Prediction
+          <h1 className="text-2xl font-semibold text-neutral-900 mb-2">
+            Live Health Monitor
           </h1>
-          <p className="text-lg text-neutral-600">
-            Your risk levels are updating in real-time
+          <p className="text-neutral-600">
+            Real-time analysis of your wellness
           </p>
         </motion.div>
 
-        {/* Risk Meter */}
+        {/* Health Score Meter */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
-          className="bg-white rounded-3xl p-8 shadow-xl mb-8 border border-neutral-100"
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="bg-white rounded-3xl p-8 shadow-lg mb-8 border border-neutral-100"
         >
-          <div className="text-center mb-6">
-            <div className="relative inline-block">
-              {/* Outer Ring - Background */}
-              <svg
-                height={meterRadius * 2}
-                width={meterRadius * 2}
-                className="transform -rotate-90"
-              >
+          <div className="flex flex-col items-center">
+            
+            {/* Circular Progress */}
+            <div className="relative mb-6">
+              <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
+                {/* Background Circle */}
                 <circle
                   stroke="#f3f4f6"
                   fill="transparent"
                   strokeWidth={strokeWidth}
                   r={normalizedRadius}
-                  cx={meterRadius}
-                  cy={meterRadius}
+                  cx={radius}
+                  cy={radius}
                 />
-                
-                {/* Current Risk */}
+                {/* Progress Circle */}
                 <motion.circle
-                  stroke="url(#currentGradient)"
+                  stroke={`url(#gradient-${healthScore})`}
                   fill="transparent"
                   strokeWidth={strokeWidth}
                   strokeDasharray={`${circumference} ${circumference}`}
-                  strokeDashoffset={currentOffset}
+                  strokeDashoffset={strokeDashoffset}
                   strokeLinecap="round"
                   r={normalizedRadius}
-                  cx={meterRadius}
-                  cy={meterRadius}
+                  cx={radius}
+                  cy={radius}
                   initial={{ strokeDashoffset: circumference }}
-                  animate={{ strokeDashoffset: currentOffset }}
+                  animate={{ strokeDashoffset }}
                   transition={{ duration: 1.5, ease: 'easeOut' }}
                 />
                 
-                {/* Prediction Ring */}
-                <motion.circle
-                  stroke="url(#predictionGradient)"
-                  fill="transparent"
-                  strokeWidth={strokeWidth / 2}
-                  strokeDasharray={`${circumference} ${circumference}`}
-                  strokeDashoffset={predictionOffset}
-                  strokeLinecap="round"
-                  r={normalizedRadius + strokeWidth / 4}
-                  cx={meterRadius}
-                  cy={meterRadius}
-                  initial={{ strokeDashoffset: circumference }}
-                  animate={{ strokeDashoffset: predictionOffset }}
-                  transition={{ delay: 0.5, duration: 1.5, ease: 'easeOut' }}
-                />
-
                 <defs>
-                  <linearGradient id="currentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#4A78FF" />
-                    <stop offset="100%" stopColor="#6B8FFF" />
-                  </linearGradient>
-                  <linearGradient id="predictionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#E0E7FF" />
-                    <stop offset="100%" stopColor="#C7D2FE" />
+                  <linearGradient id={`gradient-${healthScore}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor={getStatusColor(healthScore)} />
+                    <stop offset="100%" stopColor={getStatusColor(healthScore)} />
                   </linearGradient>
                 </defs>
               </svg>
-
+              
               {/* Center Content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={riskData.current}
-                    initial={{ scale: 1.1, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-center"
-                  >
-                    <div className="text-5xl font-light text-neutral-900 mb-1">
-                      {Math.round(riskData.current)}
-                    </div>
-                    <div className="text-sm font-medium text-neutral-600">
-                      {getRiskLevel(riskData.current)}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Update Pulse */}
-              {isUpdating && (
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-primary-400"
-                  initial={{ scale: 1, opacity: 1 }}
-                  animate={{ scale: 1.3, opacity: 0 }}
-                  transition={{ duration: 1, ease: 'easeOut' }}
-                />
-              )}
-            </div>
-          </div>
-
-          {/* Prediction Info */}
-          <div className="flex items-center justify-center space-x-6 text-center">
-            <div>
-              <div className="text-2xl font-medium text-neutral-900 mb-1">
-                {Math.round(riskData.prediction)}
-              </div>
-              <div className="text-sm text-neutral-500">Next Hour</div>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              {riskData.trend === 'down' ? (
-                <TrendingDown className="w-6 h-6 text-emerald-500" />
-              ) : riskData.trend === 'up' ? (
-                <TrendingUp className="w-6 h-6 text-red-500" />
-              ) : (
-                <ArrowRight className="w-6 h-6 text-neutral-500" />
-              )}
-            </div>
-
-            <div>
-              <div className="text-2xl font-medium text-neutral-900 mb-1">
-                {riskData.confidence}%
-              </div>
-              <div className="text-sm text-neutral-500">Confidence</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Contributing Signals */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="bg-white rounded-3xl p-6 shadow-lg border border-neutral-100"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-neutral-900">
-              Contributing Signals
-            </h2>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 transition-colors"
-            >
-              <Info className="w-5 h-5 text-neutral-600" />
-            </motion.button>
-          </div>
-
-          <div className="space-y-3">
-            {signals.map((signal, index) => {
-              const Icon = signal.icon;
-              
-              return (
-                <motion.div
-                  key={signal.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 * index + 0.5, duration: 0.4 }}
-                  className="flex items-center justify-between p-4 rounded-2xl bg-neutral-50 hover:bg-neutral-100 transition-colors"
+                  key={healthScore}
+                  initial={{ scale: 1.2, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-center"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getImpactColor(signal.impact)}`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-neutral-900">
-                        {signal.name}
-                      </div>
-                      <div className="text-sm text-neutral-500">
-                        {signal.description}
-                      </div>
-                    </div>
+                  <div 
+                    className="text-4xl font-light mb-1"
+                    style={{ color: getStatusColor(healthScore) }}
+                  >
+                    {healthScore}%
                   </div>
-                  
-                  <div className="text-right">
-                    <div className="font-medium text-neutral-900">
-                      {signal.value}
-                    </div>
-                    <div className={`text-xs font-medium ${
-                      signal.impact === 'positive' 
-                        ? 'text-emerald-600' 
-                        : signal.impact === 'negative'
-                        ? 'text-red-600'
-                        : 'text-neutral-600'
-                    }`}>
-                      {signal.impact === 'positive' ? '+' : signal.impact === 'negative' ? '-' : ''}
+                  <div 
+                    className="text-sm font-medium"
+                    style={{ color: getStatusColor(healthScore) }}
+                  >
+                    {getStatusText(healthScore)}
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Status Message */}
+            <AnimatePresence mode="wait">
+              {healthScore >= 80 ? (
+                <motion.div
+                  key="warning"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-6 w-full"
+                >
+                  <div className="flex items-center space-x-3">
+                    <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                    <div>
+                      <h3 className="text-sm font-semibold text-red-800">
+                        Health Alert
+                      </h3>
+                      <p className="text-xs text-red-600 leading-relaxed">
+                        Multiple risk factors detected. Take immediate action to improve your wellness.
+                      </p>
                     </div>
                   </div>
                 </motion.div>
-              );
-            })}
+              ) : (
+                <motion.div
+                  key="healthy"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6 w-full"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Check className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                    <div>
+                      <h3 className="text-sm font-semibold text-emerald-800">
+                        Excellent Health
+                      </h3>
+                      <p className="text-xs text-emerald-600 leading-relaxed">
+                        All systems optimal. Keep up the great work!
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Action Button */}
+            {healthScore >= 80 && (
+              <motion.button
+                onClick={handleSolve}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-6 rounded-2xl font-semibold shadow-lg transition-all duration-300"
+              >
+                Solve Now
+              </motion.button>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Health Metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="grid grid-cols-2 gap-4 mb-8"
+        >
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100">
+            <div className="flex items-center space-x-3">
+              <Heart className="w-5 h-5 text-primary-500" />
+              <div>
+                <div className="text-lg font-semibold text-neutral-900">72</div>
+                <div className="text-xs text-neutral-500">Heart Rate</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100">
+            <div className="flex items-center space-x-3">
+              <Activity className="w-5 h-5 text-primary-500" />
+              <div>
+                <div className="text-lg font-semibold text-neutral-900">6.8k</div>
+                <div className="text-xs text-neutral-500">Steps</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100">
+            <div className="flex items-center space-x-3">
+              <Moon className="w-5 h-5 text-primary-500" />
+              <div>
+                <div className="text-lg font-semibold text-neutral-900">6.2h</div>
+                <div className="text-xs text-neutral-500">Sleep</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100">
+            <div className="flex items-center space-x-3">
+              <Zap className="w-5 h-5 text-primary-500" />
+              <div>
+                <div className="text-lg font-semibold text-neutral-900">
+                  {healthScore >= 80 ? 'Low' : 'High'}
+                </div>
+                <div className="text-xs text-neutral-500">Energy</div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -347,16 +313,117 @@ export default function LivePredictionPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.4 }}
-          className="flex items-center justify-center mt-6 space-x-2"
+          className="flex items-center justify-center space-x-2"
         >
           <motion.div
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="w-2 h-2 bg-emerald-500 rounded-full"
           />
-          <span className="text-sm text-neutral-500">Live • Updates every 30 seconds</span>
+          <span className="text-xs text-neutral-500">Live monitoring active</span>
         </motion.div>
       </div>
+
+      {/* Solve Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-end z-modal modal-bottom-safe"
+          >
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="w-full max-w-sm mx-auto bg-white rounded-t-3xl p-6 mb-6"
+            >
+              {/* Modal Header */}
+              <div className="text-center mb-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-semibold text-neutral-900">
+                    Recommended Actions
+                  </h3>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center"
+                  >
+                    <X className="w-4 h-4 text-neutral-600" />
+                  </button>
+                </div>
+                <p className="text-neutral-600 text-sm">
+                  Complete these actions to improve your health score
+                </p>
+              </div>
+
+              {/* Action Checklist */}
+              <div className="space-y-4 mb-8">
+                {actions.map((action) => {
+                  const Icon = action.icon;
+                  
+                  return (
+                    <motion.button
+                      key={action.id}
+                      onClick={() => toggleAction(action.id)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full p-4 rounded-2xl border transition-all duration-300 text-left ${
+                        action.completed
+                          ? 'bg-emerald-50 border-emerald-200'
+                          : 'bg-neutral-50 border-neutral-200 hover:border-primary-200'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                          action.completed
+                            ? 'bg-emerald-500'
+                            : 'bg-white border border-neutral-200'
+                        }`}>
+                          {action.completed ? (
+                            <Check className="w-5 h-5 text-white" />
+                          ) : (
+                            <Icon className="w-5 h-5 text-neutral-600" />
+                          )}
+                        </div>
+                        
+                        <div className="flex-1">
+                          <h4 className={`font-medium ${
+                            action.completed ? 'text-emerald-800' : 'text-neutral-900'
+                          }`}>
+                            {action.title}
+                          </h4>
+                          <p className={`text-xs ${
+                            action.completed ? 'text-emerald-600' : 'text-neutral-600'
+                          }`}>
+                            {action.description}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {/* Done Button */}
+              <motion.button
+                onClick={handleDone}
+                disabled={!allActionsCompleted}
+                whileHover={allActionsCompleted ? { scale: 1.02 } : {}}
+                whileTap={allActionsCompleted ? { scale: 0.98 } : {}}
+                className={`w-full py-4 px-6 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+                  allActionsCompleted
+                    ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg'
+                    : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
+                }`}
+              >
+                Done
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

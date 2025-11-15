@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuroraNavigation } from "@/components/AuroraNavigation";
+import { LayoutClient } from "@/components/LayoutClient";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -22,10 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className="font-inter antialiased bg-white text-neutral-900" suppressHydrationWarning>
-        <div className="pb-24">
-          {children}
-        </div>
-        <AuroraNavigation />
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );

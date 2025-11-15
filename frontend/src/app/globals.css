@@ -137,6 +137,39 @@
 }
 
 @layer utilities {
+  /* Mobile Navigation Utilities */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* Z-index layers for mobile apps */
+  .z-modal {
+    z-index: 60;
+  }
+  
+  .z-overlay {
+    z-index: 55;
+  }
+  
+  .z-navigation {
+    z-index: 50;
+  }
+
+  /* Enhanced Mobile Styles */
+  @media (max-width: 640px) {
+    .mobile-nav-shadow {
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Modal positioning for mobile */
+    .modal-bottom-safe {
+      padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    }
+  }
   /* Clinical Animations (Minimal) */
   .fade-in {
     animation: fadeIn 0.3s ease-out;

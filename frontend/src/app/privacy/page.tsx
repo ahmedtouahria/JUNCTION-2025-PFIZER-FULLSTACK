@@ -96,8 +96,8 @@ export default function PrivacyDataPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-white p-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-white px-6 py-8">
+      <div className="max-w-sm mx-auto">
         
         {/* Header */}
         <motion.div
