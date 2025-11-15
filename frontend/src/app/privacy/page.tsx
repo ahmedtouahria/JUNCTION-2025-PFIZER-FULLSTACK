@@ -153,7 +153,7 @@ export default function PrivacyDataPage() {
                   End-to-End Encryption
                 </h3>
                 <p className="text-sm text-primary-700 leading-relaxed">
-                  Data is encrypted with keys only you control. Even Aurora can't access your information.
+                  Data is encrypted with keys only you control. Even Aurora can&apos;t access your information.
                 </p>
               </div>
             </div>

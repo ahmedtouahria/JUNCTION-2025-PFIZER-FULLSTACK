@@ -307,7 +307,7 @@ export default function HeroPage() {
                   </div>
                   
                   <p className="text-white mb-4 italic">
-                    "{testimonial.quote}"
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
                   
                   <div className="text-neutral-300">
