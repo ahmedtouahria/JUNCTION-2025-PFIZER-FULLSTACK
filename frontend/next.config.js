@@ -9,4 +9,8 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = {
+  experimental: {
+    outputFileTracingRoot: __dirname,
+  },
+};
