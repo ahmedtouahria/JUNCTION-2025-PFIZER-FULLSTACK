@@ -366,7 +366,7 @@ export default function HeroPage() {
                           }}
                         />
                         
-                        {/* Download icon with rotation */}
+                        {/* Start icon with rotation */}
                         <motion.div
                           animate={{ 
                             rotate: [0, -10, 10, 0],
@@ -375,7 +375,7 @@ export default function HeroPage() {
                           transition={{ duration: 3, repeat: Infinity }}
                           className="relative z-10"
                         >
-                          <Download className="w-6 h-6" />
+                          <ArrowRight className="w-6 h-6" />
                         </motion.div>
                         
                         <span className="relative z-10 font-extrabold tracking-wide">
